@@ -2,7 +2,15 @@
  * Create a list that holds all of your cards
  */
 
+ let cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt",
+ "fa-cube","fa-leaf","fa-bicycle","fa-bomb",
+ "fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt",
+ "fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
 
+let deck = document.querySelector('.deck');
+deck.addEventListener('click', clickCard);
+
+let openCards = [];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -24,6 +32,46 @@ function shuffle(array) {
 
     return array;
 }
+
+function initDeck(){
+  //remove all cards
+  const deckSize = deck.childElementCount;
+  for(let i = 0; i < deckSize; i++){
+    deck.removeChild(deck.firstElementChild);
+  }
+
+  cards = shuffle(cards);
+  for(let i = 0; i < cards.length; i++){
+    let card = document.createElement('li');
+    card.className = "card";
+    let icon = document.createElement('i');
+    icon.classList.add("fa");
+    icon.classList.add(cards[i]);
+    card.appendChild(icon);
+    deck.appendChild(card);
+  }
+}
+
+function clickCard(event){
+    if(event.target.nodeName === 'LI'){
+        displayCard(event.target);
+  }
+
+}
+
+function displayCard(card){
+
+  
+    card.classList.add("open");
+    card.classList.add("show");
+
+
+}
+
+function checkMatch(){
+
+}
+initDeck(cards);
 
 
 /*
