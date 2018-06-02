@@ -7,10 +7,21 @@
  "fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt",
  "fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
 
+
+
+
+let score;
+let movesCounter;
+let openCards;
+let ratings;
+
+let move = document.querySelector('.moves');
+let restart = document.querySelector('.restart');
+restart.addEventListener('click',init);
 let deck = document.querySelector('.deck');
 deck.addEventListener('click', clickCard);
 
-let openCards = [];
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -33,7 +44,61 @@ function shuffle(array) {
     return array;
 }
 
+function initScoreAndRating(){
+  openCards = [];
+  score = 0;
+  movesCounter = 0;
+  move.textContent = movesCounter;
+  ratings = 3;
+  drawRating(ratings);
+}
+
+
+function ratingCheck(){
+  if(movesCounter > 5 && score < 1
+    ||movesCounter > 10 && score < 3
+  ||movesCounter > 16 && score < 5 ){
+    ratings--;
+    drawRating(ratings);
+  }
+}
+
+function drawRating(n){
+  //defaul to 3 stars rating
+  const rating = 3;
+
+  //remove old ratings
+  let stars = document.querySelector('.stars');
+  let parent = stars.parentElement;
+  stars.remove();
+
+  stars = document.createElement('ul');
+  stars.className = "stars";
+
+//draw solid star
+  for(let i = 0; i < n; i++){
+    let starli = document.createElement('li');
+    let stari = document.createElement('i');
+    stari.className = "fa fa-star";
+    starli.appendChild(stari);
+    stars.appendChild(starli);
+  }
+  //draw open star
+  for(let i= n; i < rating; i++){
+    let starli = document.createElement('li');
+    let stari = document.createElement('i');
+    stari.className = "fa fa-star-o";
+    starli.appendChild(stari);
+    stars.appendChild(starli);
+
+  }
+  parent.insertBefore(stars, parent.firstElementChild);
+
+}
+
+
 function initDeck(){
+
   //remove all cards
   const deckSize = deck.childElementCount;
   for(let i = 0; i < deckSize; i++){
@@ -41,6 +106,8 @@ function initDeck(){
   }
 
   cards = shuffle(cards);
+
+  const docFrag = document.createDocumentFragment();
   for(let i = 0; i < cards.length; i++){
     let card = document.createElement('li');
     card.className = "card";
@@ -48,32 +115,113 @@ function initDeck(){
     icon.classList.add("fa");
     icon.classList.add(cards[i]);
     card.appendChild(icon);
-    deck.appendChild(card);
+    docFrag.appendChild(card);
   }
+  deck.appendChild(docFrag);
 }
 
 function clickCard(event){
-    if(event.target.nodeName === 'LI'){
+  let card = event.target;
+  let classes = card.className.split(' ');
+    if(card.nodeName === 'LI' && !classes.includes('open') ){
         displayCard(event.target);
+        if(openCards.length === 2){
+          setTimeout(matchCheck, 1000);
+          updateMoves();
+          ratingCheck();
+        }
   }
+
+}
+function updateMoves(){
+  movesCounter++;
+  //console.log("moves: "+movesCounter);
+  move.textContent = movesCounter;
 
 }
 
 function displayCard(card){
+    card.classList.add("open", "show");
+    openCards.push(card);
+}
 
-  
-    card.classList.add("open");
-    card.classList.add("show");
+function matchCheck(){
+    let card0 = openCards.pop();
+    let card1 = openCards.pop();
+    card0.classList.remove("open", "show");
+    card1.classList.remove("open", "show");
+    if(card0.firstElementChild.className === card1.firstElementChild.className){
+      card0.classList.add("match");
+      card1.classList.add("match");
+      updateScore();
+    }else{
+      console.log("no match");
+    }
+}
 
+function updateScore(){
+  score++;
+  winCheck();
+}
+
+function winCheck(){
+  if(score >= 1){
+    modal.style.display = "block";
+    let detailmsg = document.querySelector('.detailmsg');
+    if(detailmsg != null){
+      detailmsg.remove();
+    }
+
+    const btnparent = modalBtn.parentElement;
+    detailmsg = document.createElement('p');
+    detailmsg.className = "detailmsg";
+    detailmsg.textContent = "With " + movesCounter + " Moves and " + ratings + " Stars ";
+    btnparent.insertBefore(detailmsg, modalBtn);
+
+  //  console.log("you win");
+  }
 
 }
 
-function checkMatch(){
-
+function init(){
+  initScoreAndRating();
+  initDeck(cards);
 }
-initDeck(cards);
 
 
+
+
+
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+let winmsg = document.querySelector('.winmsg');
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+
+// When the user clicks anywhere outside of the modal, close it
+/*
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}*/
+let modalBtn = document.querySelector('.modalBtn');
+modalBtn.addEventListener('click', restartFn);
+
+function restartFn(){
+  console.log("restart is click");
+  modal.style.display = "none";
+  init();
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
