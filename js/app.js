@@ -14,6 +14,7 @@ let score;
 let movesCounter;
 let openCards;
 let ratings;
+let timer;
 
 let move = document.querySelector('.moves');
 let restart = document.querySelector('.restart');
@@ -48,6 +49,7 @@ function initScoreAndRating(){
   openCards = [];
   score = 0;
   movesCounter = 0;
+  timer = 0;
   move.textContent = movesCounter;
   ratings = 3;
   drawRating(ratings);
@@ -123,7 +125,7 @@ function initDeck(){
 function clickCard(event){
   let card = event.target;
   let classes = card.className.split(' ');
-    if(card.nodeName === 'LI' && !classes.includes('open') ){
+    if(card.nodeName === 'LI' && !classes.includes('open')&& !classes.includes('match') ){
         displayCard(event.target);
         if(openCards.length === 2){
           setTimeout(matchCheck, 1000);
@@ -222,6 +224,18 @@ function restartFn(){
   modal.style.display = "none";
   init();
 }
+
+let myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+    timer++;
+    let h = Math.floor(timer / (60 * 60));
+    let m = Math.floor(timer%(60*60) / 60);
+    let s = timer %60;
+    document.querySelector(".timer").innerHTML = `${("0"+h).slice(-2)}:${("0"+m).slice(-2)}:${("0"+s).slice(-2)}`;
+}
+let d1 = new Date();
+let d2 = new Date();
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
