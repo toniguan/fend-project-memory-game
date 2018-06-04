@@ -38,7 +38,7 @@ function initScorePanel(){
   openCards = [];
   score = 0;
 
-  ratings = 3;
+  ratings = 2;
   drawRating(ratings);
 
   movesCounter = 0;
@@ -60,7 +60,7 @@ function ratingCheck(){
 }
 function drawRating(n){
   //defaul to 3 stars rating
-  const rating = 3;
+  const N = 3;
 
   //remove old ratings
   let stars = document.querySelector('.stars');
@@ -71,22 +71,15 @@ function drawRating(n){
   stars.className = "stars";
 
 //draw solid star
+  let htmltxt = "";
   for(let i = 0; i < n; i++){
-    let starli = document.createElement('li');
-    let stari = document.createElement('i');
-    stari.className = "fa fa-star";
-    starli.appendChild(stari);
-    stars.appendChild(starli);
+    htmltxt = htmltxt+ `<li><i class="fa fa-star"></i></li>`;
   }
   //draw open star
-  for(let i= n; i < rating; i++){
-    let starli = document.createElement('li');
-    let stari = document.createElement('i');
-    stari.className = "fa fa-star-o";
-    starli.appendChild(stari);
-    stars.appendChild(starli);
-
+  for(let i= n; i < N; i++){
+    htmltxt = htmltxt+ `<li><i class="fa fa-star-o"></i></li>`;
   }
+  stars.innerHTML = htmltxt;
   parent.insertBefore(stars, parent.firstElementChild);
 
 }
