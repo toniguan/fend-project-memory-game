@@ -38,7 +38,7 @@ function initScorePanel(){
   openCards = [];
   score = 0;
 
-  ratings = 2;
+  ratings = 3;
   drawRating(ratings);
 
   movesCounter = 0;
@@ -52,7 +52,7 @@ function initScorePanel(){
 
 function ratingCheck(){
   if(ratings <=1 ) return;
-  if(movesCounter > 8 && score < 3
+  if(movesCounter > 2 && score < 3
   ||movesCounter > 16 && score < 6 ){
     ratings--;
     drawRating(ratings);
@@ -73,11 +73,11 @@ function drawRating(n){
 //draw solid star
   let htmltxt = "";
   for(let i = 0; i < n; i++){
-    htmltxt = htmltxt+ `<li><i class="fa fa-star"></i></li>`;
+    htmltxt += `<li><i class="fa fa-star"></i></li>`;
   }
   //draw open star
   for(let i= n; i < N; i++){
-    htmltxt = htmltxt+ `<li><i class="fa fa-star-o"></i></li>`;
+    htmltxt += htmltxt+ `<li><i class="fa fa-star-o"></i></li>`;
   }
   stars.innerHTML = htmltxt;
   parent.insertBefore(stars, parent.firstElementChild);
@@ -103,17 +103,11 @@ function initDeck(){
 
   cards = shuffle(cards);
 
-  const docFrag = document.createDocumentFragment();
+  let cardhtml = "";
   for(let i = 0; i < cards.length; i++){
-    let card = document.createElement('li');
-    card.className = "card";
-    let icon = document.createElement('i');
-    icon.classList.add("fa");
-    icon.classList.add(cards[i]);
-    card.appendChild(icon);
-    docFrag.appendChild(card);
+    cardhtml += `<li class="card"><i class="fa ${cards[i]}"></i></li>`;
   }
-  deck.appendChild(docFrag);
+  deck.innerHTML = cardhtml;
 }
 
 
