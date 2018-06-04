@@ -15,56 +15,49 @@ let movesCounter;
 let openCards;
 let ratings;
 let timer;
+let startTimer; //a boolean flag for game start.
+let timerVar;
 
 let move = document.querySelector('.moves');
+let timer_span = document.querySelector(".timer");
 let restart = document.querySelector('.restart');
-restart.addEventListener('click',init);
 let deck = document.querySelector('.deck');
+
+restart.addEventListener('click',init);
 deck.addEventListener('click', clickCard);
 
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+init();
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
+function init(){
+  initScorePanel();
+  initDeck(cards);
 }
 
-function initScoreAndRating(){
+function initScorePanel(){
   openCards = [];
   score = 0;
-  movesCounter = 0;
-  timer = 0;
-  move.textContent = movesCounter;
+
   ratings = 3;
   drawRating(ratings);
+
+  movesCounter = 0;
+  move.textContent = 0;
+
+  startTimer = false;
+  timer = 0;
+  timer_span.innerHTML = "00:00:00";
 }
 
 
 function ratingCheck(){
-  if(movesCounter > 5 && score < 1
-    ||movesCounter > 10 && score < 3
-  ||movesCounter > 16 && score < 5 ){
+  if(ratings <=1 ) return;
+  if(movesCounter > 8 && score < 3
+  ||movesCounter > 16 && score < 6 ){
     ratings--;
     drawRating(ratings);
   }
 }
-
 function drawRating(n){
   //defaul to 3 stars rating
   const rating = 3;
@@ -99,6 +92,14 @@ function drawRating(n){
 }
 
 
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+
 function initDeck(){
 
   //remove all cards
@@ -122,10 +123,16 @@ function initDeck(){
   deck.appendChild(docFrag);
 }
 
+
 function clickCard(event){
+
   let card = event.target;
   let classes = card.className.split(' ');
     if(card.nodeName === 'LI' && !classes.includes('open')&& !classes.includes('match') ){
+      if(!startTimer){
+        startTimer = true;
+        timerVar = setInterval(myTimer, 1000);
+      }
         displayCard(event.target);
         if(openCards.length === 2){
           setTimeout(matchCheck, 1000);
@@ -168,6 +175,7 @@ function updateScore(){
 
 function winCheck(){
   if(score >= 1){
+    clearInterval(timerVar);
     modal.style.display = "block";
     let detailmsg = document.querySelector('.detailmsg');
     if(detailmsg != null){
@@ -185,10 +193,7 @@ function winCheck(){
 
 }
 
-function init(){
-  initScoreAndRating();
-  initDeck(cards);
-}
+
 
 
 
@@ -225,17 +230,29 @@ function restartFn(){
   init();
 }
 
-let myVar = setInterval(myTimer, 1000);
-
 function myTimer() {
     timer++;
     let h = Math.floor(timer / (60 * 60));
     let m = Math.floor(timer%(60*60) / 60);
     let s = timer %60;
-    document.querySelector(".timer").innerHTML = `${("0"+h).slice(-2)}:${("0"+m).slice(-2)}:${("0"+s).slice(-2)}`;
+    timer_span.innerHTML = `${("0"+h).slice(-2)}:${("0"+m).slice(-2)}:${("0"+s).slice(-2)}`;
 }
-let d1 = new Date();
-let d2 = new Date();
+
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
