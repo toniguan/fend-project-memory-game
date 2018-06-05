@@ -45,18 +45,20 @@ function initScorePanel(){
   move.textContent = 0;
 
   startTimer = false;
-  timer = 0;
+  timer = 7235;
   timer_span.innerHTML = "00:00:00";
 }
 
 
 function ratingCheck(){
-  if(ratings <=1 ) return;
-  if(movesCounter > 2 && score < 3
-  ||movesCounter > 16 && score < 6 ){
-    ratings--;
+
+  ratings = 3;
+  if(movesCounter >= 8 && movesCounter <=16)
+   ratings = 2;
+  if(movesCounter > 16)
+   ratings  = 1;
     drawRating(ratings);
-  }
+
 }
 function drawRating(n){
   //defaul to 3 stars rating
@@ -77,7 +79,7 @@ function drawRating(n){
   }
   //draw open star
   for(let i= n; i < N; i++){
-    htmltxt += htmltxt+ `<li><i class="fa fa-star-o"></i></li>`;
+    htmltxt += `<li><i class="fa fa-star-o"></i></li>`;
   }
   stars.innerHTML = htmltxt;
   parent.insertBefore(stars, parent.firstElementChild);
@@ -162,64 +164,50 @@ function updateScore(){
 
 function winCheck(){
   if(score >= 1){
+    //stop timer
     clearInterval(timerVar);
-    modal.style.display = "block";
-    let detailmsg = document.querySelector('.detailmsg');
-    if(detailmsg != null){
-      detailmsg.remove();
-    }
 
-    const btnparent = modalBtn.parentElement;
-    detailmsg = document.createElement('p');
-    detailmsg.className = "detailmsg";
-    detailmsg.textContent = "With " + movesCounter + " Moves and " + ratings + " Stars ";
-    btnparent.insertBefore(detailmsg, modalBtn);
-
-  //  console.log("you win");
+    //show modal
+    showWinModal();
   }
 
 }
 
+function showWinModal(){
+  modal.style.display = "block";
+  let detailmsg = document.querySelector('.detailmsg');
+  if(detailmsg != null){
+    detailmsg.remove();
+  }
 
+  let period = timer_span.innerHTML.split(":");
 
+  detailmsg = document.createElement('p');
+  detailmsg.className = "detailmsg";
+  detailmsg.innerHTML = `With ${movesCounter} Moves and ${ratings} Stars </br>
+  in ${parseInt(period[0],10)}hour ${parseInt(period[1],10)}min ${parseInt(period[2],10)}sec`;
+  document.querySelector('.modal-content').insertBefore(detailmsg,
+    document.querySelector('.modalBtn'));
 
-
-
-
-
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+}
+//modal code from w3schools
+let modal = document.querySelector('#myModal');
 let winmsg = document.querySelector('.winmsg');
 
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+document.querySelector(".close").addEventListener('click', function() {
     modal.style.display = "none";
-}
+});
 
-
-// When the user clicks anywhere outside of the modal, close it
-/*
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}*/
-let modalBtn = document.querySelector('.modalBtn');
-modalBtn.addEventListener('click', restartFn);
+document.querySelector('.modalBtn').addEventListener('click', restartFn);
 
 function restartFn(){
-  console.log("restart is click");
   modal.style.display = "none";
   init();
 }
 
 function myTimer() {
     timer++;
-    let h = Math.floor(timer / (60 * 60));
+    let h = Math.floor(timer/60/60);
     let m = Math.floor(timer%(60*60) / 60);
     let s = timer %60;
     timer_span.innerHTML = `${("0"+h).slice(-2)}:${("0"+m).slice(-2)}:${("0"+s).slice(-2)}`;

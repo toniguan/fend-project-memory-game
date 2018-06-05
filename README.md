@@ -1,20 +1,20 @@
-# Memory Game Project
+# Memory Game
 
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [3rd Party Code](#3rd Party Code)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+There are 8 different pairs of cards face down on the game board. The player starts to turn over any two cards. If the two cards match, both cards stay open. If not, both cards are flipped face down. The player continues flipping and matching cards until all cards are matching. The player needs to remember the card's location and symbol.
 
-To get started, open `js/app.js` and start building out the app's functionality
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-## Contributing
+## 3rd Party Code
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+* [Awesome Font](https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
+* [Google Font](https://fonts.googleapis.com/css?family=Coda")
+* [Stackoverflow `Shuffle()` function](http://stackoverflow.com/a/2450976)
+* [w3schools modal code](https://www.w3schools.com/howto/howto_css_modals.asp)
+* [Udacity Memory Game Project Starter](https://github.com/udacity/fend-project-memory-game)
