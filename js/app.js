@@ -30,6 +30,9 @@ deck.addEventListener('click', clickCard);
 init();
 
 function init(){
+  if(timerVar){
+    clearInterval(timerVar);
+  }
   initScorePanel();
   initDeck(cards);
 }
