@@ -4,52 +4,39 @@
     <meta charset="utf-8">
     <title>Matching Game</title>
     <meta name="description" content="A game to test the short memory of the player">
-    <meta name=“viewport”; content=“width=device-width, initial-scale=1.0”>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Matching Game</h1>
-        </header>
-
-        <section class="score-panel">
-        	<ul class="stars">
-
-        	</ul>
-
-        	<span class="moves">0</span> Moves
-          <span class="timer">00:00:00</span>
-          <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
-        </section>
-
-        <ul class="deck">
-
-        </ul>
-    </div>
-
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
+  <div class="container">
+    <header>
+      <h1>Matching Game</h1>
+    </header>
+    <section class="score-panel">
+      <ul class="stars">
+      </ul>
+      <span class="moves"></span>
+      <span class="timer">00:00:00</span>
+      <div class="restart">
+        <i class="fa fa-repeat"></i>
+      </div>
+    </section>
+    <ul class="deck">
+    </ul>
+  </div>
+  <!-- Modal -->
+  <div class="modal">
     <span class="close">&times;</span>
     <p class="winicon">
       <i class="fa fa-check-circle"></i>
     </p>
     <p class="winmsg">Congratulations! You Won!</p>
-
     <button class="modalBtn">Play again</button>
   </div>
-
 </div>
-    </div>
 
 
 
@@ -63,6 +50,6 @@
 
 
 
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
