@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [3rd Party Code](#3rd Party Code)
+* [Code Dependencies](Code Dependencies)
 
 ## Instructions
 
@@ -11,7 +11,7 @@ There are 8 different pairs of cards face down on the game board. The player sta
 
 
 
-## 3rd Party Code
+## Code Dependencies
 
 * [Awesome Font](https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
 * [Google Font](https://fonts.googleapis.com/css?family=Coda")
