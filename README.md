@@ -3,7 +3,8 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Code Dependencies](Code Dependencies)
+* [Code Dependencies](#code-dependencies)
+
 
 ## Instructions
 
